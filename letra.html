@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>EducaLetra - Letra Inicial</title>
+  <link rel="icon" href="imagem/logo.png" type="image/png" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0ece2;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* Botão de Voltar */
+      .voltar {
+        background: #7607aa;
+        color: white;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        align-self: start;
+      }
+      .voltar:hover {
+        background: #6a1a93;
+      }
+
+    header {
+        background-color: #935394;
+        color: white;
+        padding: 20px;
+        display: flex;
+        flex-direction: column; /* Para alinhar verticalmente */
+        justify-content: center; /* Alinha verticalmente */
+        align-items: center; /* Alinha horizontalmente */
+        text-align: center; /* Garante que o texto dentro do header esteja centralizado */
+      }
+
+    .container {
+      padding: 30px;
+    }
+
+    .imagem-palavra {
+      max-width: 200px;
+      height: auto;
+      margin: 20px auto;
+      border-radius: 10px;
+      border: 2px solid #935394;
+    }
+
+    .letra {
+      display: inline-block;
+      background-color: #9ee1ba;
+      padding: 20px;
+      margin: 10px;
+      font-size: 28px;
+      border-radius: 10px;
+      cursor: grab;
+    }
+
+    .alvo {
+      margin-top: 30px;
+      border: 2px dashed #4caf50;
+      height: 80px;
+      line-height: 80px;
+      font-size: 35px;
+      color: #888;
+      background-color: #fff;
+      border-radius: 10px;
+    }
+
+    .btn {
+      background-color: #65bd68;
+      color: white;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    #feedback {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    #resumo {
+      font-size: 22px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="voltar" onclick="window.location.href = 'mapaletra.html'">Voltar</button>
+    <h1>EducaLetra</h1>
+    <p>Arraste a letra correta que inicia a palavra!</p>
+  </header>
+
+  <div class="container">
+    <h2 id="pergunta">
+      Qual letra começa a palavra:
+      <span id="palavra" style="color: #4caf50"></span>?
+    </h2>
+
+    <img id="imagem" class="imagem-palavra" src="" alt="Imagem da Palavra" />
+    <br />
+    <audio id="audio" controls></audio>
+
+    <div id="letras"></div>
+
+    <div id="alvo" class="alvo" ondrop="soltarLetra(event)" ondragover="permitirSoltar(event)">
+     Arraste a letra aqui
+    </div>
+
+    <div id="feedback"></div>
+    <div id="resumo"></div>
+
+    <button class="btn" id="btnProxima" onclick="novaRodada()" style="display: none">
+      Próxima Palavra
+    </button>
+    <button class="btn" id="btnReiniciar" onclick="reiniciar()" style="display: none">
+      Tentar Novamente
+    </button>
+    <button class="btn" id="btnVoltar" onclick="voltarParaMapa()" style="display: none">
+      Voltar para Fases
+    </button>
+
+  </div>
+
+  <script>
+    const palavrasPorNivel = {
+  facil: [
+    "gato", "dado", "maçã", "mão", "uva",
+    "ovo", "vaca", "sapo", "bola", "casa"
+  ],
+  normal: [
+    "lápis", "xicara", "janela", "zebra", "coruja",
+    "bola", "mesa", "camisa", "jacaré", "caderno"
+  ],
+  dificil: [
+    "mochila", "teclado", "elefante", "borboleta", "computador",
+    "bicicleta", "brinquedo", "professor", "dinossauro", "ventilador"
+  ]
+};
+
+let palavrasDisponiveis = [];
+let palavraAtual = "";
+let letraCorreta = "";
+let acertos = 0;
+let erros = 0;
+
+
+    function embaralhar(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+    
+
+    function permitirSoltar(event) {
+      event.preventDefault();
+    }
+
+    function soltarLetra(event) {
+      event.preventDefault();
+      const letraSolta = event.dataTransfer.getData("text");
+
+      const alvo = document.getElementById("alvo");
+      alvo.textContent = letraSolta;
+
+      const feedback = document.getElementById("feedback");
+      if (letraSolta === letraCorreta) {
+        feedback.textContent = "✅ Acertou!";
+        feedback.style.color = "green";
+        acertos++;
+      } else {
+        feedback.textContent = `❌ Errou!
+        Chegou perto!`;
+        feedback.style.color = "red";
+        erros++;
+      }
+
+      document.querySelectorAll(".letra").forEach((div) => div.setAttribute("draggable", false));
+      document.getElementById("btnProxima").style.display = "inline-block";
+    }
+
+    function novaRodada() {
+      document.getElementById("imagem").style.display = "inline";
+      document.getElementById("audio").style.display = "inline";
+      document.getElementById("alvo").style.display = "inline";
+      document.getElementById("btnProxima").style.display = "none";
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("alvo").textContent = "Arraste a letra aqui";
+
+      if (palavrasDisponiveis.length === 0) {
+        mostrarResumo();
+        return;
+      }
+
+      palavraAtual = palavrasDisponiveis.pop();
+      letraCorreta = palavraAtual[0].toUpperCase();
+
+      // Exibe a palavra sem a letra inicial
+      const palavraComTraco = "_" + palavraAtual.slice(1);
+      document.getElementById("palavra").textContent = palavraComTraco;
+
+      // Atualiza imagem e som
+      document.getElementById("imagem").src = `imagem/${palavraAtual}.png`;
+      document.getElementById("imagem").alt = `Imagem de ${palavraAtual}`;
+      const audio = document.getElementById("audio");
+      audio.src = `audio/${palavraAtual}.mp3`;
+      audio.load();
+
+      // Gera letras
+      const alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").filter((l) => l !== letraCorreta);
+      const letrasErradas = [];
+      while (letrasErradas.length < 2) {
+        const l = alfabeto[Math.floor(Math.random() * alfabeto.length)];
+        if (!letrasErradas.includes(l)) letrasErradas.push(l);
+      }
+
+      const opcoes = embaralhar([letraCorreta, ...letrasErradas]);
+
+      const letrasDiv = document.getElementById("letras");
+      letrasDiv.innerHTML = "";
+
+      opcoes.forEach((letra) => {
+        const div = document.createElement("div");
+        div.className = "letra";
+        div.textContent = letra;
+        div.setAttribute("draggable", true);
+        div.ondragstart = (e) => {
+          e.dataTransfer.setData("text", letra);
+        };
+        letrasDiv.appendChild(div);
+      });
+    }
+
+    function mostrarResumo() {
+      // Esconde elementos do jogo
+      document.getElementById("letras").innerHTML = "";
+      document.getElementById("imagem").style.display = "none";
+      document.getElementById("audio").style.display = "none";
+      document.getElementById("alvo").style.display = "none";
+
+      document.getElementById("palavra").textContent = "";
+      document.getElementById("pergunta").textContent = "🎉 Você concluiu o exercício!";
+      document.getElementById(
+        "resumo"
+      ).innerHTML = `✔️ Acertos: <strong>${acertos}</strong><br>❌ Erros: <strong>${erros}</strong>`;
+
+      // Mostrar botões
+      document.getElementById("btnReiniciar").style.display = "inline-block";
+      document.getElementById("btnVoltar").style.display = "inline-block";
+
+      // Salvar progresso
+      const params = new URLSearchParams(window.location.search);
+      const faseAtual = parseInt(params.get("fase") || "1");
+      const progressoKey = "letra_progresso";
+      const progressoAtual = parseInt(localStorage.getItem(progressoKey) || "1");
+
+      if (faseAtual >= progressoAtual) {
+        localStorage.setItem(progressoKey, faseAtual + 1);
+      }
+      // Salvar erros da fase
+      localStorage.setItem("erros" + faseAtual, erros.toString());
+
+    }
+
+
+    function reiniciar() {
+  const params = new URLSearchParams(window.location.search);
+  const fase = parseInt(params.get("fase") || "1");
+
+  let nivel = "facil";
+  if (fase >= 5 && fase <= 7) {
+    nivel = "normal";
+  } else if (fase >= 8) {
+    nivel = "dificil";
+  }
+
+  // Pega 5 palavras da lista correspondente ao nível
+  const palavrasDoNivel = [...palavrasPorNivel[nivel]];
+  const embaralhadas = embaralhar(palavrasDoNivel);
+  palavrasDisponiveis = embaralhadas.slice(0, 5);
+
+  acertos = 0;
+  erros = 0;
+  document.getElementById("resumo").textContent = "";
+  document.getElementById("btnReiniciar").style.display = "none";
+  document.getElementById("btnVoltar").style.display = "none";
+
+  document.getElementById("pergunta").innerHTML =
+    'Qual letra começa a palavra: <span id="palavra" style="color:#4caf50;"></span>?';
+
+  novaRodada();
+}
+
+
+    reiniciar();
+
+    function voltarParaMapa() {
+      window.location.href = "mapaletra.html";
+    }
+
+  </script>
+</body>
+</html>

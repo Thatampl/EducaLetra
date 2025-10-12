@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>EducaLetra</title>
+    <link rel="icon" href="imagem/logo.png" type="image/png" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f0ece2;
+        margin: 0;
+        padding: 0;
+        background-image: url('imagem/fundoc.png');
+      }
+
+      header {
+        background-color: #935394;
+        color: white;
+        padding: 20px;
+        display: flex;
+        flex-direction: column; /* Para alinhar verticalmente */
+        justify-content: center; /* Alinha verticalmente */
+        align-items: center; /* Alinha horizontalmente */
+        text-align: center; /* Garante que o texto dentro do header esteja centralizado */
+      }
+
+      header h1 {
+        margin: 0;
+      }
+
+      .escolha-jogo {
+        margin-top: 10px;
+        font-size: 1.2em;
+      }
+
+      /* Botão de Voltar */
+      button {
+        background: #7607aa;
+        color: white;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        align-self: start;
+      }
+
+      button:hover {
+        background: #6a1a93;
+      }
+
+      .baloes {
+        display: flex;
+        justify-content: center;
+        gap: 150px;
+        margin-top: 100px;
+      }
+
+      .botao-jogo {
+        background: #865aac;
+        padding: 45px;
+        border-radius: 30%;
+        color: rgb(255, 255, 255);
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        width: 150px;
+        height: 150px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+      }
+
+      .botao-jogo:hover {
+        transform: scale(1.09);
+      }
+
+      /* Estilo da tela */
+      .container {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <button onclick="window.location.href = 'EducaLetra.html'">Voltar</button>
+      <h1>EducaLetra</h1>
+      <p class="escolha-jogo">Escolha um jogo!</p>
+    </header>
+
+    <div class="container">
+      <div class="baloes">
+        <a class="botao-jogo" href="mapaletra.html">LETRA</a>
+        <a class="botao-jogo" href="mapasilaba.html">SÍLABA</a>
+      </div>
+    </div>
+  </body>
+</html>

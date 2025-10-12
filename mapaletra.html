@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mapa de Fases - EducaLetra</title>
+  <link rel="icon" href="imagem/logo.png" type="image/png" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0ece2;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    button {
+      background: #7607aa;
+      color: white;
+      padding: 8px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      align-self: start;
+    }
+    button:hover {
+      background: #6a1a93;
+    }
+
+    header {
+      background-color: #935394;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .fases-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      padding: 40px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .fase {
+      background-color: #ddd;
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 20px;
+      cursor: pointer;
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .fase.bloqueada {
+      background-color: #ccc;
+      color: #888;
+      cursor: not-allowed;
+    }
+
+    .fase.concluida {
+      background-color: purple;
+      color: white;
+    }
+
+    .fase.atual {
+      background-color: gold;
+      color: black;
+    }
+
+    .fase:hover.concluida {
+      background-color: #580a7a;
+    }
+
+    .fase:hover.atual {
+      background-color: #e6c200;
+    }
+
+    .estrela {
+      position: absolute;
+      top: 5px;
+      right: 8px;
+      font-size: 18px;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: left;
+      width: 320px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      font-size: 24px;
+      color: #4a148c;
+    }
+
+    .modal-content p {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .modal-buttons {
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    .dificuldade {
+      font-weight: bold;
+      font-size: 18px;
+      color: #4a148c;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button onclick="window.location.href = 'jogos.html'">Voltar</button>
+    <h1>Jogo das Letras - EducaLetra</h1>
+    <p>Escolha uma fase para jogar</p>
+  </header>
+
+  <div class="fases-container" id="fasesContainer"></div>
+
+  <!-- Modal de confirmação -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-content">
+      <h2 id="faseTitulo">Fase X</h2>
+      <p id="descricao">Você está prestes a jogar a fase X.</p>
+      <p class="dificuldade" id="dificuldade"></p>
+      <div class="modal-buttons">
+        <button onclick="fecharModal()">Cancelar</button>
+        <button id="btnConfirmar">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const totalFases = 10;
+    const progressoKey = "letra_progresso";
+    const errosKeyPrefix = "erros";
+
+    function obterProgresso() {
+      const salvo = localStorage.getItem(progressoKey);
+      return salvo ? parseInt(salvo) : 1;
+    }
+
+    function faseSemErros(fase) {
+      const erros = localStorage.getItem(errosKeyPrefix + fase);
+      return erros === "0";
+    }
+
+    function getDificuldade(fase) {
+      if (fase <= 4) return "Fácil";
+      if (fase <= 7) return "Normal";
+      return "Difícil";
+    }
+
+    function criarMapaFases() {
+      const container = document.getElementById("fasesContainer");
+      container.innerHTML = ""; // limpa container antes
+
+      const progresso = obterProgresso();
+
+      for (let i = 1; i <= totalFases; i++) {
+        const fase = document.createElement("div");
+
+        if (i < progresso) {
+          fase.className = "fase concluida";
+        } else if (i === progresso) {
+          fase.className = "fase atual";
+        } else {
+          fase.className = "fase bloqueada";
+        }
+
+        fase.textContent = "Fase " + i;
+
+        if (i <= progresso) {
+          fase.onclick = () => abrirModal(i);
+        }
+
+        // Adiciona estrela para fases concluídas sem erro
+        if (i < progresso && faseSemErros(i)) {
+          const estrela = document.createElement("span");
+          estrela.className = "estrela";
+          estrela.textContent = "⭐";
+          fase.appendChild(estrela);
+        }
+
+        container.appendChild(fase);
+      }
+    }
+    
+
+    function abrirModal(fase) {
+      document.getElementById("faseTitulo").textContent = "Fase " + fase;
+      document.getElementById("descricao").textContent = `Você está prestes a jogar a Fase ${fase}.`;
+      document.getElementById("dificuldade").textContent = "Dificuldade: " + getDificuldade(fase);
+
+      const modal = document.getElementById("confirmModal");
+      modal.style.display = "flex";
+
+      const btnConfirmar = document.getElementById("btnConfirmar");
+      btnConfirmar.onclick = () => {
+        window.location.href = `letra.html?fase=${fase}`;
+      };
+    }
+
+    function fecharModal() {
+      document.getElementById("confirmModal").style.display = "none";
+    }
+    
+    criarMapaFases();
+  </script>
+</body>
+</html>
