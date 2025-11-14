@@ -205,7 +205,7 @@ h1 {
 /* RODAPÉ */
 footer {
   background-color: #7e5095;
- /*  padding: 20px; */
+  padding: 20px;
   text-align: center;
   font-size: 14px;
 }
@@ -253,3 +253,4 @@ footer {
   }
 
 }
+
