@@ -7,81 +7,87 @@
 
   <!-- Ícone da aba -->
   <link rel="icon" href="imagem/logo.png" type="image/png" />
+
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <!-- BARRA FIXA NO TOPO -->
-  <div class="top-bar">
-    
-    <!-- LOGO À ESQUERDA -->
+  <div class="top-bar d-flex justify-content-between align-items-center">
+
+    <!-- LOGO -->
     <div class="logo">
       <img src="imagem/logoletra.png" alt="Logo do EducaLetra" />
     </div>
 
-    <!-- SUBTÍTULO CENTRAL -->
-    <div class="subtitle">Brincando e aprendendo!</div>
+    <!-- SUBTÍTULO -->
+    <div class="subtitle text-center d-none d-md-block">
+      Brincando e aprendendo!
+    </div>
 
-    <!-- BOTÕES DE NAVEGAÇÃO -->
-    <nav>
-      <!-- Rola para o topo -->
+    <!-- NAVEGAÇÃO -->
+    <nav class="d-flex gap-2">
       <button class="nav" onclick="reiniciarPagina()">início</button>
-
-      <!-- Rola até o rodapé -->
       <button class="nav" onclick="document.getElementById('footer').scrollIntoView({ behavior: 'smooth' })">sobre</button>
-
-      <!-- Exibe o formulário -->
       <button class="nav entrar" onclick="mostrarFormulario()">entrar</button>
     </nav>
+
   </div>
 
   <!-- CONTEÚDO PRINCIPAL -->
-  <div class="container">
-    
-    <!-- LADO ESQUERDO: texto de boas-vindas ou formulário -->
-    <div class="left" id="leftSide">
+  <div class="container-fluid mt-5 pt-4">
 
-      <!-- TEXTO INICIAL (visível por padrão) -->
-      <div class="intro-text" id="introText">
-        <h2>Bem-vindo ao EducaLetra!</h2>
-        <p>
-          Um site interativo para ajudar na alfabetização de crianças de forma
-          divertida e educativa. Aqui você encontrará jogos, atividades e
-          desafios pensados para tornar o aprendizado mais leve e encantador!
-        </p>
+    <div class="row g-0">
+
+      <!-- LADO ESQUERDO -->
+      <div class="left col-12 col-md-6 d-flex flex-column align-items-center">
+
+        <!-- TEXTO INICIAL -->
+        <div class="intro-text" id="introText">
+          <h2>Bem-vindo ao EducaLetra!</h2>
+          <p>
+            Um site interativo para ajudar na alfabetização de crianças de forma
+            divertida e educativa. Aqui você encontrará jogos, atividades e
+            desafios pensados para tornar o aprendizado mais leve e encantador!
+          </p>
+        </div>
+
+        <!-- FORMULÁRIO -->
+        <form class="formulario" id="formulario">
+          <h3 id="formTitulo">Entrar</h3>
+
+          <div class="inputs" id="cadastroCampos" style="display: none;">
+            <input type="text" id="nome" placeholder="Nome" />
+            <input type="text" id="sobrenome" placeholder="Sobrenome" />
+          </div>
+
+          <input type="email" id="email" placeholder="E-mail" required />
+          <input type="password" id="senha" placeholder="Senha" required />
+
+          <button type="submit" id="botaoForm">Entrar</button>
+
+          <p id="alternarTexto">Não possui conta? <a href="#" id="alternarLink">Criar conta</a></p>
+
+          <p id="mensagemErro" class="erro"></p>
+        </form>
+
       </div>
 
-      <!-- FORMULÁRIO (invisível inicialmente) -->
-      <form class="formulario" id="formulario">
-  <h3 id="formTitulo">Entrar</h3>
+      <!-- LADO DIREITO (IMAGEM) -->
+      <div class="right col-12 col-md-6 d-flex justify-content-center align-items-center">
+        <div class="right-content">
+          <h1>Vamos <br /> aprender a ler e escrever!</h1>
+          <img src="imagem/blocoEduca.png" alt="Blocos ABC" class="abc-img" />
+        </div>
+      </div>
 
-  <!-- Campos de nome e sobrenome (visíveis apenas no cadastro) -->
-  <div class="inputs" id="cadastroCampos" style="display: none;">
-    <input type="text" id="nome" placeholder="Nome" />
-    <input type="text" id="sobrenome" placeholder="Sobrenome" />
-  </div>
-
-  <!-- E-mail e senha -->
-  <input type="email" id="email" placeholder="E-mail" required />
-  <input type="password" id="senha" placeholder="Senha" required />
-
-  <!-- Botão -->
-  <button type="submit" id="botaoForm">Entrar</button>
-
-  <!-- Alternar entre login e cadastro -->
-  <p id="alternarTexto">Não possui conta? <a href="#" id="alternarLink">Criar conta</a></p>
-
-  <!-- Mensagem de erro -->
-<p id="mensagemErro" class="erro"></p>
-</form>
     </div>
-
-    <!-- LADO DIREITO: imagem e chamada para ação -->
-<div class="right">
-  <div class="right-content">
-    <h1>Vamos <br /> aprender a ler e escrever!</h1>
-    <img src="imagem/blocoEduca.png" alt="Blocos ABC" class="abc-img" />
-  </div>
-</div>
   </div>
 
   <!-- RODAPÉ -->
@@ -90,111 +96,105 @@
     <p>© 2025 EducaLetra. Todos os direitos reservados. Criado por Th e Ga.</p>
   </footer>
 
-  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- SEU SCRIPT ORIGINAL (não alterei nada) -->
   <script>
-    // Exibe o formulário e esconde o texto inicial
     function mostrarFormulario() {
       document.getElementById("introText").style.display = "none";
       document.getElementById("formulario").classList.add("active");
     }
 
-    // Volta ao texto inicial e esconde o formulário
     function reiniciarPagina() {
       document.getElementById("introText").style.display = "block";
       document.getElementById("formulario").classList.remove("active");
     }
 
-  const formulario = document.getElementById("formulario");
-  const cadastroCampos = document.getElementById("cadastroCampos");
-  const formTitulo = document.getElementById("formTitulo");
-  const botaoForm = document.getElementById("botaoForm");
-  const alternarTexto = document.getElementById("alternarTexto");
-  const alternarLink = document.getElementById("alternarLink");
-  const mensagemErro = document.getElementById("mensagemErro");
+    const formulario = document.getElementById("formulario");
+    const cadastroCampos = document.getElementById("cadastroCampos");
+    const formTitulo = document.getElementById("formTitulo");
+    const botaoForm = document.getElementById("botaoForm");
+    const alternarTexto = document.getElementById("alternarTexto");
+    const alternarLink = document.getElementById("alternarLink");
+    const mensagemErro = document.getElementById("mensagemErro");
 
-  let modoCadastro = false;
+    let modoCadastro = false;
 
-  // Alternar entre entrar e criar conta
-  function atualizarInterfaceCadastro() {
-    cadastroCampos.style.display = modoCadastro ? "flex" : "none";
-    formTitulo.textContent = modoCadastro ? "Criar Conta" : "Entrar";
-    botaoForm.textContent = modoCadastro ? "Criar Conta" : "Entrar";
-    alternarTexto.innerHTML = modoCadastro
-      ? 'Já tem conta? <a href="#" id="alternarLink">Entrar</a>'
-      : 'Não possui conta? <a href="#" id="alternarLink">Criar conta</a>';
-    mensagemErro.textContent = "";
+    function atualizarInterfaceCadastro() {
+      cadastroCampos.style.display = modoCadastro ? "flex" : "none";
+      formTitulo.textContent = modoCadastro ? "Criar Conta" : "Entrar";
+      botaoForm.textContent = modoCadastro ? "Criar Conta" : "Entrar";
+      alternarTexto.innerHTML = modoCadastro
+        ? 'Já tem conta? <a href="#" id="alternarLink">Entrar</a>'
+        : 'Não possui conta? <a href="#" id="alternarLink">Criar conta</a>';
+      mensagemErro.textContent = "";
 
-    // Reaplica o listener
-    document.getElementById("alternarLink").addEventListener("click", (e) => {
+      document.getElementById("alternarLink").addEventListener("click", (e) => {
+        e.preventDefault();
+        modoCadastro = !modoCadastro;
+        atualizarInterfaceCadastro();
+      });
+    }
+
+    alternarLink.addEventListener("click", (e) => {
       e.preventDefault();
       modoCadastro = !modoCadastro;
       atualizarInterfaceCadastro();
     });
-  }
 
-  alternarLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    modoCadastro = !modoCadastro;
-    atualizarInterfaceCadastro();
-  });
-
-  // LocalStorage helpers
-  function getUsuarios() {
-    return JSON.parse(localStorage.getItem("usuarios") || "[]");
-  }
-
-  function salvarUsuario(usuario) {
-    const usuarios = getUsuarios();
-    usuarios.push(usuario);
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-  }
-
-  formulario.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value.trim();
-    const senha = document.getElementById("senha").value.trim();
-
-    if (modoCadastro) {
-      // Cadastro
-      const nome = document.getElementById("nome").value.trim();
-      const sobrenome = document.getElementById("sobrenome").value.trim();
-
-      if (!nome || !sobrenome || !email || !senha) {
-        mensagemErro.textContent = "Preencha todos os campos.";
-        return;
-      }
-
-      const usuarios = getUsuarios();
-      if (usuarios.find((u) => u.email === email)) {
-        mensagemErro.textContent = "E-mail já cadastrado.";
-        return;
-      }
-
-      salvarUsuario({ nome, sobrenome, email, senha, pontuacao: 0 });
-      alert("Conta criada com sucesso!");
-      modoCadastro = false;
-      formulario.reset();
-      atualizarInterfaceCadastro();
-    } else {
-      // Login
-      const usuarios = getUsuarios();
-      const usuario = usuarios.find((u) => u.email === email && u.senha === senha);
-
-      if (!usuario) {
-        mensagemErro.textContent = "E-mail ou senha incorretos ou conta não cadastrada.";
-        return;
-      }
-
-      sessionStorage.setItem("usuarioLogado", JSON.stringify(usuario));
-      window.location.href = "jogos.html";
+    function getUsuarios() {
+      return JSON.parse(localStorage.getItem("usuarios") || "[]");
     }
-  });
 
-  // Inicializa interface
-  atualizarInterfaceCadastro();
-</script>
+    function salvarUsuario(usuario) {
+      const usuarios = getUsuarios();
+      usuarios.push(usuario);
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    }
 
+    formulario.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const senha = document.getElementById("senha").value.trim();
+
+      if (modoCadastro) {
+        const nome = document.getElementById("nome").value.trim();
+        const sobrenome = document.getElementById("sobrenome").value.trim();
+
+        if (!nome || !sobrenome || !email || !senha) {
+          mensagemErro.textContent = "Preencha todos os campos.";
+          return;
+        }
+
+        const usuarios = getUsuarios();
+        if (usuarios.find((u) => u.email === email)) {
+          mensagemErro.textContent = "E-mail já cadastrado.";
+          return;
+        }
+
+        salvarUsuario({ nome, sobrenome, email, senha, pontuacao: 0 });
+        alert("Conta criada com sucesso!");
+        modoCadastro = false;
+        formulario.reset();
+        atualizarInterfaceCadastro();
+      } else {
+        const usuarios = getUsuarios();
+        const usuario = usuarios.find((u) => u.email === email && u.senha === senha);
+
+        if (!usuario) {
+          mensagemErro.textContent = "E-mail ou senha incorretos ou conta não cadastrada.";
+          return;
+        }
+
+        sessionStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+        window.location.href = "jogos.html";
+      }
+    });
+
+    atualizarInterfaceCadastro();
+  </script>
 
 </body>
 </html>
