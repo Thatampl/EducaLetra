@@ -1,4 +1,4 @@
- deixe esse codigo compativel para o celuar utilizando ferramentas do bootstrap porem nao mude a formatacao presente style.css: /* RESET BÁSICO: remove margens, paddings e define fonte padrão */ 
+/* RESET BÁSICO: remove margens, paddings e define fonte padrão */ 
 * {
   margin: 0;
   padding: 0;
@@ -252,3 +252,4 @@ footer {
     order: 1;
   }
 }
+
