@@ -1,81 +1,76 @@
-index.html: <!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EducaLetra</title>
 
-  <!-- Ícone da aba -->
+
   <link rel="icon" href="imagem/logo.png" type="image/png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- BARRA FIXA NO TOPO -->
+
   <div class="top-bar">
     
-    <!-- LOGO À ESQUERDA -->
+   
     <div class="logo">
       <img src="imagem/logoletra.png" alt="Logo do EducaLetra" />
     </div>
 
-    <!-- SUBTÍTULO CENTRAL -->
+
     <div class="subtitle">Brincando e aprendendo!</div>
 
-    <!-- BOTÕES DE NAVEGAÇÃO -->
+  
     <nav>
-      <!-- Rola para o topo -->
+    
       <button class="nav" onclick="reiniciarPagina()">início</button>
 
-      <!-- Rola até o rodapé -->
+
       <button class="nav" onclick="document.getElementById('footer').scrollIntoView({ behavior: 'smooth' })">sobre</button>
 
-      <!-- Exibe o formulário -->
+   
       <button class="nav entrar" onclick="mostrarFormulario()">entrar</button>
     </nav>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL -->
+
   <div class="container">
     
-    <!-- LADO ESQUERDO: texto de boas-vindas ou formulário -->
+    
     <div class="left" id="leftSide">
 
-      <!-- TEXTO INICIAL (visível por padrão) -->
+    
       <div class="intro-text" id="introText">
-        <h2>Bem-vindo ao EducaLetra!</h2>
-        <p>
-          Um site interativo para ajudar na alfabetização de crianças de forma
-          divertida e educativa. Aqui você encontrará jogos, atividades e
-          desafios pensados para tornar o aprendizado mais leve e encantador!
-        </p>
+
       </div>
 
-      <!-- FORMULÁRIO (invisível inicialmente) -->
+  
       <form class="formulario" id="formulario">
   <h3 id="formTitulo">Entrar</h3>
 
-  <!-- Campos de nome e sobrenome (visíveis apenas no cadastro) -->
+ 
   <div class="inputs" id="cadastroCampos" style="display: none;">
     <input type="text" id="nome" placeholder="Nome" />
     <input type="text" id="sobrenome" placeholder="Sobrenome" />
   </div>
 
-  <!-- E-mail e senha -->
+
   <input type="email" id="email" placeholder="E-mail" required />
   <input type="password" id="senha" placeholder="Senha" required />
 
-  <!-- Botão -->
+
   <button type="submit" id="botaoForm">Entrar</button>
 
-  <!-- Alternar entre login e cadastro -->
+
   <p id="alternarTexto">Não possui conta? <a href="#" id="alternarLink">Criar conta</a></p>
 
-  <!-- Mensagem de erro -->
+
 <p id="mensagemErro" class="erro"></p>
 </form>
     </div>
 
-    <!-- LADO DIREITO: imagem e chamada para ação -->
+
 <div class="right">
   <div class="right-content">
     <h1>Vamos <br /> aprender a ler e escrever!</h1>
@@ -84,7 +79,7 @@ index.html: <!DOCTYPE html>
 </div>
   </div>
 
-  <!-- RODAPÉ -->
+
   <footer id="footer">
     <p>EducaLetra é um projeto voltado para a alfabetização infantil com atividades interativas, jogos e recursos educativos.</p>
     <p>© 2025 EducaLetra. Todos os direitos reservados. Criado por Th e Ga.</p>
@@ -98,7 +93,7 @@ index.html: <!DOCTYPE html>
       document.getElementById("formulario").classList.add("active");
     }
 
-    // Volta ao texto inicial e esconde o formulário
+    // Volta ao texto inivial e esconde o form
     function reiniciarPagina() {
       document.getElementById("introText").style.display = "block";
       document.getElementById("formulario").classList.remove("active");
@@ -124,7 +119,7 @@ index.html: <!DOCTYPE html>
       : 'Não possui conta? <a href="#" id="alternarLink">Criar conta</a>';
     mensagemErro.textContent = "";
 
-    // Reaplica o listener
+
     document.getElementById("alternarLink").addEventListener("click", (e) => {
       e.preventDefault();
       modoCadastro = !modoCadastro;
@@ -138,7 +133,7 @@ index.html: <!DOCTYPE html>
     atualizarInterfaceCadastro();
   });
 
-  // LocalStorage helpers
+
   function getUsuarios() {
     return JSON.parse(localStorage.getItem("usuarios") || "[]");
   }
@@ -191,7 +186,7 @@ index.html: <!DOCTYPE html>
     }
   });
 
-  // Inicializa interface
+
   atualizarInterfaceCadastro();
 </script>
 
