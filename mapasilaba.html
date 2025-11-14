@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <title>Mapa de Fases - EducaLetra</title>
   <link rel="icon" href="imagem/logo.png" type="image/png" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -22,27 +32,43 @@
       cursor: pointer;
       font-weight: bold;
       transition: background-color 0.3s;
-      align-self: start;
     }
     button:hover {
       background: #6a1a93;
     }
 
+    
     header {
       background-color: #935394;
       color: white;
       padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
 
+    header .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+      text-align: center;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      text-align: center;
+    }
+
+    
     .fases-container {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 20px;
       padding: 40px;
+      width: 100%;
       max-width: 800px;
       margin: 0 auto;
     }
@@ -53,8 +79,11 @@
       border-radius: 12px;
       font-size: 20px;
       cursor: pointer;
-      position: relative;
       transition: 0.3s;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .fase.bloqueada {
@@ -83,23 +112,16 @@
 
     .estrela {
       position: absolute;
-      top: 5px;
-      right: 8px;
+      top: 8px;
+      right: 12px;
       font-size: 18px;
     }
 
-    /* Modal */
+    
     .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
       display: none;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
     }
 
     .modal-content {
@@ -107,8 +129,9 @@
       padding: 20px;
       border-radius: 10px;
       text-align: left;
-      width: 320px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 800px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
     }
 
     .modal-content h2 {
@@ -122,39 +145,61 @@
       margin: 10px 0;
     }
 
-    .modal-buttons {
-      text-align: right;
-      margin-top: 20px;
-    }
-
     .dificuldade {
       font-weight: bold;
       font-size: 18px;
       color: #4a148c;
     }
+
+    
+    @media (max-width: 992px) {
+      .fases-container { grid-template-columns: repeat(3, 1fr); }
+      header h1 { font-size: 28px; }
+    }
+
+    @media (max-width: 768px) {
+      .fases-container { grid-template-columns: repeat(2, 1fr); padding: 20px; }
+      .fase { font-size: 18px; }
+      header h1 { font-size: 22px; }
+    }
+
+    @media (max-width: 480px) {
+      .fases-container { grid-template-columns: 1fr; gap: 15px; }
+      .fase { font-size: 18px; padding: 15px; }
+      .modal-content { width: 100%; }
+    }
+
   </style>
 </head>
 <body>
+
   <header>
-    <button onclick="window.location.href = 'jogos.html'">Voltar</button>
+    <div class="header-top">
+      <button onclick="window.location.href='jogos.html'">Voltar</button>
+    </div>
     <h1>Jogo das Sílabas - EducaLetra</h1>
     <p>Escolha uma fase para jogar</p>
   </header>
 
-  <div class="fases-container" id="fasesContainer"></div>
+  <div class="container">
+    <div class="fases-container" id="fasesContainer"></div>
+  </div>
 
-  <!-- Modal de confirmação -->
+  
   <div class="modal" id="confirmModal">
     <div class="modal-content">
       <h2 id="faseTitulo">Fase X</h2>
-      <p id="descricao">Você está prestes a jogar a fase X.</p>
+      <p id="descricao">Você está prestes a jogar a Fase X.</p>
       <p class="dificuldade" id="dificuldade"></p>
-      <div class="modal-buttons">
+      <div class="modal-buttons text-end">
         <button onclick="fecharModal()">Cancelar</button>
         <button id="btnConfirmar">Confirmar</button>
       </div>
     </div>
   </div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
     const totalFases = 10;
@@ -168,7 +213,7 @@
 
     function faseSemErros(fase) {
       const erros = localStorage.getItem(errosKeyPrefix + fase);
-      return erros === "0"; // '0' = sem erro, qualquer outro valor = erro ocorreu
+      return erros === "0";
     }
 
     function getDificuldade(fase) {
@@ -179,7 +224,7 @@
 
     function criarMapaFases() {
       const container = document.getElementById("fasesContainer");
-      container.innerHTML = ""; // limpa container antes
+      container.innerHTML = "";
 
       const progresso = obterProgresso();
 
@@ -200,7 +245,6 @@
           fase.onclick = () => abrirModal(i);
         }
 
-        // Adiciona estrela para fases concluídas sem erro
         if (i < progresso && faseSemErros(i)) {
           const estrela = document.createElement("span");
           estrela.className = "estrela";
@@ -211,15 +255,15 @@
         container.appendChild(fase);
       }
     }
-    
 
     function abrirModal(fase) {
       document.getElementById("faseTitulo").textContent = "Fase " + fase;
-      document.getElementById("descricao").textContent = `Você está prestes a jogar a Fase ${fase}.`;
-      document.getElementById("dificuldade").textContent = "Dificuldade: " + getDificuldade(fase);
+      document.getElementById("descricao").textContent =
+        `Você está prestes a jogar a Fase ${fase}.`;
+      document.getElementById("dificuldade").textContent =
+        "Dificuldade: " + getDificuldade(fase);
 
-      const modal = document.getElementById("confirmModal");
-      modal.style.display = "flex";
+      document.getElementById("confirmModal").style.display = "flex";
 
       const btnConfirmar = document.getElementById("btnConfirmar");
       btnConfirmar.onclick = () => {
@@ -230,8 +274,9 @@
     function fecharModal() {
       document.getElementById("confirmModal").style.display = "none";
     }
-    
+
     criarMapaFases();
   </script>
+
 </body>
 </html>
