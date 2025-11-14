@@ -1,4 +1,4 @@
-/* RESET BÁSICO: remove margens, paddings e define fonte padrão */ 
+
 * {
   margin: 0;
   padding: 0;
@@ -6,12 +6,12 @@
   font-family: 'Arial', sans-serif;
 }
 
-/* Fundo geral da página */
+
 body {
   background-color: #fdfdfd;
 }
 
-/* BARRA FIXA NO TOPO */
+
 .top-bar {
   background-color: #9e3fca;
   color: white;
@@ -25,7 +25,7 @@ body {
   z-index: 1000;
 }
 
-/* LOGO E TÍTULO À ESQUERDA */
+
 .top-bar .logo {
   display: flex;
   align-items: center;
@@ -39,14 +39,14 @@ body {
   font-size: 24px;
 }
 
-/* SUBTÍTULO CENTRAL */
+
 .top-bar .subtitle {
   font-size: 30px;
   margin-left: 10%;
   font-style: italic;
 }
 
-/* NAVEGAÇÃO À DIREITA */
+
 .top-bar nav {
   display: flex;
   gap: 20px;
@@ -67,25 +67,25 @@ body {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* BOTÃO ESPECIAL "ENTRAR" */
+
 .top-bar button.entrar {
   background-color: #6a1492;
 }
 
-/* CONTAINER PRINCIPAL */
+
 .container {
   display: flex;
-  height: calc(100vh - 60px); /* altura menos a barra */
+  height: calc(100vh - 60px);
   margin-top: 60px;
 }
 
-/* LADOS ESQUERDO E DIREITO */
+
 .left, .right {
   width: 50%;
   padding: 40px;
 }
 
-/* LADO ESQUERDO (TEXTO E FORMULÁRIO) */
+
 .left {
   background: white;
   display: flex;
@@ -93,18 +93,18 @@ body {
   justify-content: center;
 }
 
-/* TEXTO INICIAL VISÍVEL */
+
 .intro-text {
   display: block;
 }
 
-/* FORMULÁRIO (ESCONDIDO INICIALMENTE) */
+
 .formulario {
   display: none;
   flex-direction: column;
 }
 
-/* FORMULÁRIO ATIVO (VISÍVEL) */
+
 .formulario.active {
    position: absolute;
   top: 50%;
@@ -120,7 +120,7 @@ body {
   align-items: center;
 }
 
-/* INPUTS DE NOME LADO A LADO */
+
 .inputs {
   display: flex;
   gap: 10px;
@@ -128,7 +128,7 @@ body {
   width: 50%;
 }
 
-/* CAMPOS DE INPUT */
+
 input {
   padding: 10px;
   border-radius: 20px;
@@ -136,7 +136,7 @@ input {
   width: 50%;
 }
 
-/* BOTÕES PADRÃO */
+
 button {
   background: #7607aa;
   color: white;
@@ -154,7 +154,7 @@ button:hover {
   background: #6a1a93;
 }
 
-/*(IMAGEM DE FUNDO) */
+
 .right {
   background-image: url('imagem/fundo.png');
   background-size: cover;
@@ -170,7 +170,7 @@ button:hover {
 }
 
 
-/* CONTEÚDO SOBREPOSTO À IMAGEM */
+
 .right-content {
   position: relative;
   z-index: 1;
@@ -180,14 +180,14 @@ button:hover {
 }
 
 
-/* TÍTULO PRINCIPAL */
+
 h1 {
   color: #543583;
   font-size: 4em;
   margin: 40px 0 10px;
 }
 
-/* IMAGEM DOS BLOCOS ABC */
+
 .abc-img {
   width: 300px;
   margin-top: 20px;
@@ -197,12 +197,12 @@ h1 {
   z-index: 1;
   align-items: center;transform: scale(1.4);
 }
-/* TÍTULO DO FORMULÁRIO */
+
 .formulario h3 {
   margin-bottom: 10px;
 }
 
-/* RODAPÉ */
+
 footer {
   background-color: #7e5095;
   padding: 20px;
@@ -210,13 +210,21 @@ footer {
   font-size: 14px;
 }
 
-/* RESPONSIVIDADE BÁSICA */
+
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    height: auto;
-    margin-top: 120px;
+  .abc-img{
+    display: flex;
+    justify-self: center;
   }
+
+  h1 {
+    display: flex;
+    justify-self: center;
+    color: #543583;
+    font-size: 4em;
+    padding-top: 120px;
+    }
+  
 
   .left, .right {
     width: 100%;
@@ -237,11 +245,12 @@ footer {
     order: 3;
     width: 100%;
     margin-top: 8px;
-    font-size: 16px;
+    font-size: 30px;
     text-align: center;
   }
 
   .top-bar nav {
+    display: flex;
     order: 2;
     width: 100%;
     justify-content: center;
@@ -249,7 +258,7 @@ footer {
   }
 
   .top-bar .logo {
-    order: 1;
+    display: flex;
+    align-items: center;
   }
 }
-
