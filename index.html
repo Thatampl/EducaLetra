@@ -10,62 +10,61 @@
   rel="stylesheet"
   />
 
-  <!-- Ícone da aba -->
+
   <link rel="icon" href="imagem/logo.png" type="image/png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- BARRA FIXA NO TOPO -->
+
   <div class="top-bar">
     
-    <!-- LOGO À ESQUERDA -->
+
     <div class="logo">
       <img src="imagem/logoletra.png" alt="Logo do EducaLetra" />
     </div>
 
-    <!-- SUBTÍTULO CENTRAL -->
+
     <div class="subtitle">Brincando e aprendendo!</div>
 
-    <!-- BOTÕES DE NAVEGAÇÃO -->
+  
     <nav>
-      <!-- Rola para o topo -->
+    
       <button class="nav" onclick="reiniciarPagina()">início</button>
 
-      <!-- Rola até o rodapé -->
+  
       <button class="nav" onclick="document.getElementById('footer').scrollIntoView({ behavior: 'smooth' })">sobre</button>
 
-      <!-- Exibe o formulário -->
+  
       <button class="nav entrar" onclick="mostrarFormulario()">entrar</button>
     </nav>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL -->
+
   <div class="container">
     
-    <!-- LADO ESQUERDO: texto de boas-vindas ou formulário -->
+
     <div class="left" id="leftSide">
 
-      <!-- TEXTO INICIAL (visível por padrão) -->
+   
       <div class="intro-text" id="introText">
 
       </div>
 
-      <!-- FORMULÁRIO (invisível inicialmente) -->
       <form class="formulario" id="formulario"><form class="formulario card p-4 shadow" id="formulario">
 
   <h3 id="formTitulo">Entrar</h3>
 
-  <!-- Campos de nome e sobrenome (visíveis apenas no cadastro) -->
+
   <div class="inputs" id="cadastroCampos" style="display: none;">
     <input type="text" id="nome" class="form-control mb-2" placeholder="Nome" />
     <input type="text" id="sobrenome" class="form-control mb-2" placeholder="Sobrenome" />
   </div>
 
-  <!-- E-mail e senha -->
+
     <input type="email" id="email" class="form-control mb-2" placeholder="E-mail" required>
     <input type="password" id="senha" class="form-control mb-2" placeholder="Senha" required>
 
-  <!-- Botão -->
+
   <button
   type="submit"
   id="botaoForm"
@@ -75,15 +74,15 @@
 </button>
 
 
-  <!-- Alternar entre login e cadastro -->
+
   <p id="alternarTexto">Não possui conta? <a href="#" id="alternarLink">Criar conta</a></p>
 
-  <!-- Mensagem de erro -->
+
 <p id="mensagemErro" class="erro"></p>
 </form>
     </div>
 
-    <!-- LADO DIREITO: imagem e chamada para ação -->
+  
 <div class="right">
   <div class="right-content">
     <h1>Vamos <br /> aprender a ler e escrever!</h1>
@@ -92,7 +91,7 @@
 </div>
   </div>
 
-  <!-- RODAPÉ -->
+
   <footer id="footer">
     <p>EducaLetra é um projeto voltado para a alfabetização infantil com atividades interativas, jogos e recursos educativos.</p>
     <p>© 2025 EducaLetra. Todos os direitos reservados. Criado por Th e Ga.</p>
@@ -100,7 +99,7 @@
 
   
   <script>
-    // Exibe o formulário e esconde o texto inicial
+
     function mostrarFormulario() {
       document.getElementById("introText").style.display = "none";
       document.getElementById("formulario").classList.add("active");
@@ -110,7 +109,7 @@
       }, 10);
     }
 
-    // Volta ao texto inicial e esconde o formulário
+
     function reiniciarPagina() {
       document.getElementById("introText").style.display = "block";
       document.getElementById("formulario").classList.remove("active");
@@ -126,7 +125,7 @@
 
   let modoCadastro = false;
 
-  // Alternar entre entrar e criar conta
+
   function atualizarInterfaceCadastro() {
     cadastroCampos.style.display = modoCadastro ? "flex" : "none";
     formTitulo.textContent = modoCadastro ? "Criar Conta" : "Entrar";
@@ -136,7 +135,7 @@
       : 'Não possui conta? <a href="#" id="alternarLink">Criar conta</a>';
     mensagemErro.textContent = "";
 
-    // Reaplica o listener
+
     document.getElementById("alternarLink").addEventListener("click", (e) => {
       e.preventDefault();
       modoCadastro = !modoCadastro;
@@ -150,7 +149,7 @@
     atualizarInterfaceCadastro();
   });
 
-  // LocalStorage helpers
+
   function getUsuarios() {
     return JSON.parse(localStorage.getItem("usuarios") || "[]");
   }
@@ -203,11 +202,12 @@
     }
   });
 
-  // Inicializa interface
+
   atualizarInterfaceCadastro();
 </script>
 
 
 </body>
 </html>
+
 
