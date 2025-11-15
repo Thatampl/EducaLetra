@@ -2,16 +2,23 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jogo de Sílabas</title>
   <link rel="icon" href="imagem/logo.png" type="image/png" />
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f0ece2;
       text-align: center;
-      padding: 0;
       margin: 0;
+      padding: 0;
     }
+
+    /* Botão Voltar */
     .voltar {
       background: #7607aa;
       color: white;
@@ -20,9 +27,9 @@
       border-radius: 20px;
       cursor: pointer;
       font-weight: bold;
-      transition: background-color 0.3s;
-      align-self: start;
+      align-self: flex-start;
     }
+
     .voltar:hover {
       background: #6a1a93;
     }
@@ -38,12 +45,8 @@
       text-align: center;
     }
 
-    .container {
-      padding: 30px;
-    }
-
-    img {
-     max-width: 200px;
+    #imagem {
+      max-width: 240px;
       height: auto;
       margin: 20px auto;
       border-radius: 10px;
@@ -54,21 +57,27 @@
       margin-top: 20px;
       display: flex;
       justify-content: center;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 12px;
+      font-size: 28px;
     }
 
     .sylables button {
       background: #d1c4e9;
       border: none;
       padding: 20px 30px;
-      font-size: 1.5em;
+      font-size: 1.2m;
       border-radius: 10px;
       cursor: pointer;
+      transition: .2s;
+    }
+
+    .sylables button:hover {
+      transform: scale(1.08);
     }
 
     .response {
-      margin-top: 30px;
+      margin-top: 25px;
       font-size: 1.2em;
       color: #333;
     }
@@ -76,84 +85,137 @@
     .word-preview {
       margin-top: 20px;
       font-weight: bold;
-      font-size: 1.5em;
+      font-size: 1.6em;
       color: #4a148c;
     }
 
-    .btn {
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
+    .btn-custom {
       background-color: #65bd68;
       color: white;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
+      margin-top: 20px;
     }
 
-    
+    /* 🔥 MEDIA QUERIES PARA MOBILE */
+    @media (max-width: 768px) {
+      #imagem {
+        max-width: 150px;
+      }
+
+      .sylables button {
+        padding: 15px 22px;
+        font-size: 1.2em;
+      }
+
+      .word-preview {
+        font-size: 1.3em;
+      }
+
+      header h1 {
+        font-size: 1.6em;
+      }
+
+      header p {
+        font-size: 1.1em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #imagem {
+        max-width: 130px;
+      }
+
+      .sylables button {
+        padding: 14px 18px;
+        font-size: 1.1em;
+      }
+
+      .btn-custom {
+        width: 90%;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
+
+  <header class="w-100">
     <button class="voltar" onclick="window.location.href = 'mapasilaba.html'">Voltar</button>
     <h1>EducaLetra</h1>
     <p>Monte a palavra correta com as sílabas!</p>
   </header>
 
-  <div class="container">
-    <img id="imagem" src="" alt="Imagem">
+  <div class="container mt-4">
+    
+    <!-- Imagem -->
+    <img id="imagem" src="" alt="Imagem" class="img-fluid">
+
+    <!-- Áudio -->
     <div>
       <audio id="audioPalavra" controls></audio>
     </div>
-    <div class="word-preview" id="preview"></div>
-    <div class="sylables" id="opcoes"></div>
-    <div class="response" id="mensagem"></div>
 
-    <button class="btn" onclick="proximaPalavra()" id="btnProxima">Próxima Palavra</button>
-    <button class="btn" onclick="reiniciar()" id="btnReiniciar" style="display:none">Tentar Novamente</button>
-    <button class="btn" id="btnVoltar" onclick="voltarParaMapa()" style="display: none">Voltar para Fases</button>
+    <!-- Palavra sendo montada -->
+    <div id="preview" class="word-preview"></div>
+
+    <!-- Botões das sílabas -->
+    <div id="opcoes" class="sylables"></div>
+
+    <!-- Mensagem -->
+    <div id="mensagem" class="response"></div>
+
+    <!-- Botões -->
+    <button class="btn-custom" onclick="proximaPalavra()" id="btnProxima">Próxima Palavra</button>
+    <button class="btn-custom" onclick="reiniciar()" id="btnReiniciar" style="display:none">Tentar Novamente</button>
+
+    <button class="btn-custom" id="btnVoltar" onclick="voltarParaMapa()" style="display:none">
+      Voltar para Fases
+    </button>
+
     <audio id="audioSilaba"></audio>
   </div>
 
+  <!-- SCRIPT DO JOGO (todo igual ao seu) -->
   <script>
     const palavrasPorNivel = {
-  facil: [
-    { imagem: "gato.png", silabas: ["ga", "to"], correta: "gato" },
-    { imagem: "dado.png", silabas: ["da", "do"], correta: "dado" },
-    { imagem: "maçã.png", silabas: ["ma", "çã"], correta: "maçã" },
-    { imagem: "uva.png", silabas: ["u", "va"], correta: "uva" },
-    { imagem: "ovo.png", silabas: ["o", "vo"], correta: "ovo" },
-    { imagem: "vaca.png", silabas: ["va", "ca"], correta: "vaca" },
-    { imagem: "sapo.png", silabas: ["sa", "po"], correta: "sapo" },
-    { imagem: "mesa.png", silabas: ["me", "sa"], correta: "mesa" },
-    { imagem: "bola.png", silabas: ["bo", "la"], correta: "bola" },
-    { imagem: "casa.png", silabas: ["ca", "sa"], correta: "casa" }
-  ],
-  normal: [
-    { imagem: "lápis.png", silabas: ["lá", "pis"], correta: "lápis" },
-    { imagem: "xicara.png", silabas: ["xí", "ca", "ra"], correta: "xícara" },
-    { imagem: "janela.png", silabas: ["ja", "ne", "la"], correta: "janela" },
-    { imagem: "zebra.png", silabas: ["ze", "bra"], correta: "zebra" },
-    { imagem: "coruja.png", silabas: ["co", "ru", "ja"], correta: "coruja" },
-    { imagem: "camisa.png", silabas: ["ca", "mi", "sa"], correta: "camisa" },
-    { imagem: "jacaré.png", silabas: ["ja", "ca", "ré"], correta: "jacaré" },
-    { imagem: "caderno.png", silabas: ["ca", "der", "no"], correta: "caderno" }
-  ],
-  dificil: [
-    { imagem: "mochila.png", silabas: ["mo", "chi", "la"], correta: "mochila" },
-    { imagem: "teclado.png", silabas: ["te", "cla", "do"], correta: "teclado" },
-    { imagem: "elefante.png", silabas: ["e", "le", "fan", "te"], correta: "elefante" },
-    { imagem: "borboleta.png", silabas: ["bor", "bo", "le", "ta"], correta: "borboleta" }, 
-    { imagem: "computador.png", silabas: ["com", "pu", "ta", "dor"], correta: "computador" },
-    { imagem: "bicicleta.png", silabas: ["bi", "ci", "cle", "ta"], correta: "bicicleta" },
-    { imagem: "brinquedo.png", silabas: ["brin", "que", "do"], correta: "brinquedo" },
-    { imagem: "professor.png", silabas: ["pro", "fes", "sor"], correta: "professor" },
-    { imagem: "dinossauro.png", silabas: ["di", "nos", "sau", "ro"], correta: "dinossauro" }, 
-    { imagem: "ventilador.png", silabas: ["ven", "ti", "la", "dor"], correta: "ventilador" }
-  ]
-};
-
+      facil: [
+        { imagem: "gato.png", silabas: ["ga", "to"], correta: "gato" },
+        { imagem: "dado.png", silabas: ["da", "do"], correta: "dado" },
+        { imagem: "maçã.png", silabas: ["ma", "çã"], correta: "maçã" },
+        { imagem: "uva.png", silabas: ["u", "va"], correta: "uva" },
+        { imagem: "ovo.png", silabas: ["o", "vo"], correta: "ovo" },
+        { imagem: "vaca.png", silabas: ["va", "ca"], correta: "vaca" },
+        { imagem: "sapo.png", silabas: ["sa", "po"], correta: "sapo" },
+        { imagem: "mesa.png", silabas: ["me", "sa"], correta: "mesa" },
+        { imagem: "bola.png", silabas: ["bo", "la"], correta: "bola" },
+        { imagem: "casa.png", silabas: ["ca", "sa"], correta: "casa" }
+      ],
+      normal: [
+        { imagem: "lápis.png", silabas: ["lá", "pis"], correta: "lápis" },
+        { imagem: "xicara.png", silabas: ["xí", "ca", "ra"], correta: "xícara" },
+        { imagem: "janela.png", silabas: ["ja", "ne", "la"], correta: "janela" },
+        { imagem: "zebra.png", silabas: ["ze", "bra"], correta: "zebra" },
+        { imagem: "coruja.png", silabas: ["co", "ru", "ja"], correta: "coruja" },
+        { imagem: "camisa.png", silabas: ["ca", "mi", "sa"], correta: "camisa" },
+        { imagem: "jacaré.png", silabas: ["ja", "ca", "ré"], correta: "jacaré" },
+        { imagem: "caderno.png", silabas: ["ca", "der", "no"], correta: "caderno" }
+      ],
+      dificil: [
+        { imagem: "mochila.png", silabas: ["mo", "chi", "la"], correta: "mochila" },
+        { imagem: "teclado.png", silabas: ["te", "cla", "do"], correta: "teclado" },
+        { imagem: "elefante.png", silabas: ["e", "le", "fan", "te"], correta: "elefante" },
+        { imagem: "borboleta.png", silabas: ["bor", "bo", "le", "ta"], correta: "borboleta" },
+        { imagem: "computador.png", silabas: ["com", "pu", "ta", "dor"], correta: "computador" },
+        { imagem: "bicicleta.png", silabas: ["bi", "ci", "cle", "ta"], correta: "bicicleta" },
+        { imagem: "brinquedo.png", silabas: ["brin", "que", "do"], correta: "brinquedo" },
+        { imagem: "professor.png", silabas: ["pro", "fes", "sor"], correta: "professor" },
+        { imagem: "dinossauro.png", silabas: ["di", "nos", "sau", "ro"], correta: "dinossauro" },
+        { imagem: "ventilador.png", silabas: ["ven", "ti", "la", "dor"], correta: "ventilador" }
+      ]
+    };
 
     let palavrasSelecionadas = [];
     let indice = 0;
@@ -233,8 +295,8 @@
         <p>❌ Erros: <strong>${erros}</strong></p>
       `;
       document.getElementById('btnProxima').style.display = "none";
-      document.getElementById('btnReiniciar').style.display = "inline-block";
-      document.getElementById("btnVoltar").style.display = "inline-block";
+      document.getElementById('btnReiniciar').style.display = "inline";
+      document.getElementById('btnVoltar').style.display = "inline";
 
       const params = new URLSearchParams(window.location.search);
       const faseAtual = parseInt(params.get("fase") || "1");
@@ -244,38 +306,33 @@
       if (faseAtual >= progressoAtual) {
         localStorage.setItem(progressoKey, faseAtual + 1);
       }
-      // Salvar erros da fase (para mostrar estrela no mapa)
-      localStorage.setItem("silaba_erros_" + faseAtual, erros.toString());
 
+      localStorage.setItem("silaba_erros_" + faseAtual, erros.toString());
     }
 
     function reiniciar() {
-  const params = new URLSearchParams(window.location.search);
-  const fase = parseInt(params.get("fase") || "1");
+      const params = new URLSearchParams(window.location.search);
+      const fase = parseInt(params.get("fase") || "1");
 
-  let nivel = "facil";
-  if (fase >= 5 && fase <= 7) {
-    nivel = "normal";
-  } else if (fase >= 8) {
-    nivel = "dificil";
-  }
+      let nivel = "facil";
+      if (fase >= 5 && fase <= 7) nivel = "normal";
+      if (fase >= 8) nivel = "dificil";
 
-  const palavrasDoNivel = [...palavrasPorNivel[nivel]];
-  palavrasSelecionadas = embaralhar(palavrasDoNivel).slice(0, 5);
+      const palavrasDoNivel = [...palavrasPorNivel[nivel]];
+      palavrasSelecionadas = embaralhar(palavrasDoNivel).slice(0, 5);
 
-  indice = 0;
-  acertos = 0;
-  erros = 0;
+      indice = 0;
+      acertos = 0;
+      erros = 0;
 
-  document.getElementById('imagem').style.display = "inline";
-  audioPalavra.style.display = "inline";
-  document.getElementById('btnProxima').style.display = "inline";
-  document.getElementById('btnReiniciar').style.display = "none";
-  document.getElementById("btnVoltar").style.display = "none";
+      document.getElementById('imagem').style.display = "inline";
+      audioPalavra.style.display = "inline";
+      document.getElementById('btnProxima').style.display = "inline";
+      document.getElementById('btnReiniciar').style.display = "none";
+      document.getElementById('btnVoltar').style.display = "none";
 
-  carregarJogo();
-}
-
+      carregarJogo();
+    }
 
     reiniciar();
 
@@ -285,4 +342,3 @@
   </script>
 </body>
 </html>
-
