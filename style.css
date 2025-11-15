@@ -203,6 +203,16 @@ h1 {
   margin-bottom: 10px;
 }
 
+.btn-primary {
+  background-color: #7607aa !important;
+  border: none !important;
+}
+
+.btn-primary:hover {
+  background-color: #6a1a93 !important;
+}
+
+
 /* RODAPÉ */
 footer {
   background-color: #7e5095;
